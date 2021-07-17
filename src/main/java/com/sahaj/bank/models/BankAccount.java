@@ -41,9 +41,9 @@ public class BankAccount {
 	}
 
 	public boolean isDepositLimitReached() {
-		return getDeposits() > 3;
+		return getDeposits() == 3;
 	}
 	public boolean isWithdrawLimitReached() {
-		return getWithdrawals() > 3;
+		return getWithdrawals() == 3;
 	}
 }
