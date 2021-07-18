@@ -92,11 +92,11 @@ public class Database {
 	}
 
 	public boolean isDepositLimitReached(Long accountNumber) {
-		return getDepositsFromStartOfDay(accountNumber).size() == 3;
+		return getDepositsFromStartOfDay(accountNumber).size() == Transaction.TRANSACTION_LIMIT;
 	}
 
 	public boolean isWithdrawLimitReached(Long accountNumber) {
-		return getWithdrawalsFromStartOfDay(accountNumber).size() == 3;
+		return getWithdrawalsFromStartOfDay(accountNumber).size() == Transaction.TRANSACTION_LIMIT;
 	}
 
 	private Date getStartOfDay() {

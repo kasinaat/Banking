@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Transaction {
 	public Integer transactionId;
+	public static final Integer TRANSACTION_LIMIT = 3;
 	private static final AtomicInteger count = new AtomicInteger(0);
 
 	public TransactionType transactionType;
