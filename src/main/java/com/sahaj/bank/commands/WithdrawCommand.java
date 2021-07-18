@@ -12,18 +12,20 @@ public class WithdrawCommand implements CommandExecutor{
 	List<String> params;
 	public Long accountNumber;
 	public Integer amount;
+
 	@Override
 	public void execute(Command command) throws InvalidCommandException, TransactionLimitExceedsException {
 		Database database = Database.getInstance();
 		if(database.hasAccount(accountNumber)) {
 			BankAccount account = database.getAccount(accountNumber);
 			Transaction transaction = new Transaction(TransactionType.WITHDRAW, accountNumber);
-			database.addTransaction(transaction);
 			if(database.isWithdrawLimitReached(accountNumber)) {
 				throw new TransactionLimitExceedsException("Only 3 withdrawals are allowed in a day");
 			}
 			if((account.getFundsBalance() - amount) > 0) {
 				account.withdrawMoney(amount);
+				transaction.setTransactionAmount(amount);
+				database.addTransaction(transaction);
 				System.out.println(account.getFundsBalance());
 			} else {
 				throw new InvalidCommandException("Insufficient balance");
@@ -52,4 +54,5 @@ public class WithdrawCommand implements CommandExecutor{
 		}
 		return true;
 	}
+
 }

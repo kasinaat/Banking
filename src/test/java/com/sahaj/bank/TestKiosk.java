@@ -6,10 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 public class TestKiosk {
 	private InputStream inputStream;
@@ -30,27 +27,23 @@ public class TestKiosk {
 	
 	@Test
 	public void testcase1() throws IOException {
-		String expected = "1001\r\n" +
-				"1002\r\n" +
-				"500\r\n" +
-				"1500\r\n" +
-				"Minimum deposit amount is 500\r\n" +
-				"Maximum deposit amount is 50000\r\n" +
-				"11500\r\n" +
-				"Only 3 deposits are allowed in a day\r\n" +
-				"11500\r\n" +
-				"Minimum withdrawal amount is 1000\r\n" +
-				"Insufficient balance\r\n" +
-				"10500\r\n" +
-				"8600\r\n" +
-				"7600\r\n" +
-				"2600\r\n" +
-				"Insufficient balance\r\n" +
-				"0\r\n" +
-				"2600\r\n" +
-				"Minimum withdrawal amount is 1000 for account 1002\r\n" +
-				"Maximum withdrawal amount is 25000 for account 1002\r\n";
 		new Kiosk().start("testcases\\testcase1.txt");
-		Assert.assertEquals(expected, outContent.toString());
+		Assert.assertEquals(readFileAsString("testOutputs\\output1.txt"), outContent.toString());
+	}
+
+	private String readFileAsString(String filename) throws IOException {
+		String path = new File("").getAbsolutePath();
+		File file = new File(path + File.separator + filename);
+		StringBuffer fileData = new StringBuffer();
+		BufferedReader reader = new BufferedReader(
+				new FileReader(file));
+		char[] buf = new char[1024];
+		int numRead=0;
+		while((numRead=reader.read(buf)) != -1){
+			String readData = String.valueOf(buf, 0, numRead);
+			fileData.append(readData);
+		}
+		reader.close();
+		return fileData.toString();
 	}
 }

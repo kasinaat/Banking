@@ -11,6 +11,7 @@ public class Transaction {
 	public Long targetAccount;
 	public Long sourceAccount;
 	public Date transactionTime;
+	public Integer transactionAmount;
 
 	public Transaction(TransactionType transactionType, Long sourceAccount) {
 		this.transactionId = count.incrementAndGet();
@@ -18,6 +19,7 @@ public class Transaction {
 		this.transactionType = transactionType;
 		this.sourceAccount = sourceAccount;
 	}
+
 	public Date getTransactionTime() {
 		return transactionTime;
 	}
@@ -36,5 +38,9 @@ public class Transaction {
 
 	public TransactionType getTransactionType() {
 		return transactionType;
+	}
+
+	public void setTransactionAmount(Integer transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 }

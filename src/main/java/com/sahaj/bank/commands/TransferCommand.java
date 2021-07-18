@@ -12,6 +12,7 @@ public class TransferCommand implements CommandExecutor{
 	Long sourceAccountNumber;
 	Long targetAccountNumber;
 	Integer amount;
+
 	@Override
 	public void execute(Command command) throws InvalidCommandException, TransactionLimitExceedsException {
 		Database database = Database.getInstance();
@@ -33,8 +34,10 @@ public class TransferCommand implements CommandExecutor{
 			if((sourceAccount.getFundsBalance() - amount) > 0) {
 				sourceAccount.withdrawMoney(amount);
 				targetAccount.depositMoney(amount);
+				sourceTransaction.setTransactionAmount(amount);
 				Transaction targetTransaction = new Transaction(TransactionType.DEPOSIT, targetAccountNumber);
 				database.addTransaction(targetTransaction);
+				targetTransaction.setTransactionAmount(amount);
 				System.out.println("Successful");
 			} else {
 				throw new InvalidCommandException("Insufficient balance");
@@ -65,4 +68,5 @@ public class TransferCommand implements CommandExecutor{
 		}
 		return true;
 	}
+
 }

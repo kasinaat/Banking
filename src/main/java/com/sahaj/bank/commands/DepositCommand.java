@@ -12,6 +12,7 @@ public class DepositCommand implements CommandExecutor{
 	List<String> params;
 	public Long accountNumber;
 	public Integer amount;
+
 	@Override
 	public void execute(Command command) throws InvalidCommandException, TransactionLimitExceedsException {
 		Database database = Database.getInstance();
@@ -21,9 +22,10 @@ public class DepositCommand implements CommandExecutor{
 				throw new TransactionLimitExceedsException("Only 3 deposits are allowed in a day");
 			}
 			Transaction transaction = new Transaction(TransactionType.DEPOSIT, accountNumber);
-			database.addTransaction(transaction);
 			if((account.getFundsBalance() + amount) < 100000) {
 				account.depositMoney(amount);
+				transaction.setTransactionAmount(amount);
+				database.addTransaction(transaction);
 				System.out.println(account.getFundsBalance());
 			} else {
 				throw new InvalidCommandException("Maximum account balance limit is Rs. 1,00,000");
@@ -52,4 +54,5 @@ public class DepositCommand implements CommandExecutor{
 		}
 		return true;
 	}
+
 }
