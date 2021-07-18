@@ -1,10 +1,6 @@
 package com.sahaj.bank;
 
-import com.sahaj.bank.tasks.TransactionResetTask;
-
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Timer;
 
 public class App
 {

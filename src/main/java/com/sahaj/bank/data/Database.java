@@ -26,9 +26,6 @@ public class Database {
 	public Long getNewAccountNumber() {
 		return ++LAST_ACCOUNT_NUMBER;
 	}
-	public Long getNewTransactionId() {
-		return ++LAST_TRANSACTION_ID;
-	}
 	public Map<Long, BankAccount> getBankAccounts() {
 		return bankAccounts;
 	}
