@@ -1,5 +1,5 @@
-Create Kasi
-Create Selvi
+Create "Kasi"
+Create "Selvi"
 Deposit 1001 500
 Deposit 1001 1000
 Deposit 1001 100

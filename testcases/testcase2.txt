@@ -1,0 +1,9 @@
+Deposit 1001 500
+Deposit 1001 1000
+Deposit 1001 100
+Create "John Doe"
+Create "Jane Doe"
+Deposit 1001 25000
+Deposit 1001 25000
+Deposit 1001 25000
+Deposit 1001 25000

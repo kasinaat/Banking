@@ -30,6 +30,11 @@ public class TestKiosk {
 		new Kiosk().start("testcases\\testcase1.txt");
 		Assert.assertEquals(readFileAsString("testOutputs\\output1.txt"), outContent.toString());
 	}
+	@Test
+	public void testcase2() throws IOException {
+		new Kiosk().start("testcases\\testcase2.txt");
+		Assert.assertEquals(readFileAsString("testOutputs\\output2.txt"), outContent.toString());
+	}
 
 	private String readFileAsString(String filename) throws IOException {
 		String path = new File("").getAbsolutePath();

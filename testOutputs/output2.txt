@@ -1,0 +1,9 @@
+Account doesn't exists
+Account doesn't exists
+Minimum deposit amount is 500
+1001
+1002
+25000
+50000
+75000
+Only 3 deposits are allowed in a day
