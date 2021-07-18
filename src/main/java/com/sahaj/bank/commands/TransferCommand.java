@@ -3,8 +3,7 @@ package com.sahaj.bank.commands;
 import com.sahaj.bank.data.Database;
 import com.sahaj.bank.exception.InvalidCommandException;
 import com.sahaj.bank.exception.TransactionLimitExceedsException;
-import com.sahaj.bank.models.BankAccount;
-import com.sahaj.bank.models.Command;
+import com.sahaj.bank.models.*;
 
 import java.util.List;
 
@@ -15,23 +14,27 @@ public class TransferCommand implements CommandExecutor{
 	Integer amount;
 	@Override
 	public void execute(Command command) throws InvalidCommandException, TransactionLimitExceedsException {
-		List<String> params = command.getParams();
 		Database database = Database.getInstance();
 		if(database.hasAccount(sourceAccountNumber) && database.hasAccount(targetAccountNumber)) {
 			BankAccount sourceAccount = database.getAccount(sourceAccountNumber);
 			BankAccount targetAccount = database.getAccount(targetAccountNumber);
-			if(sourceAccount.isWithdrawLimitReached()) {
+			Transaction sourceTransaction = new Transaction(TransactionType.WITHDRAW, sourceAccountNumber);
+			database.addTransaction(sourceTransaction);
+			if(database.isWithdrawLimitReached(sourceAccountNumber)) {
 				throw new TransactionLimitExceedsException("Only 3 withdrawals are allowed in a day for account " + sourceAccount.getAccountNumber());
 			}
-			if(targetAccount.isDepositLimitReached()) {
+			if(database.isDepositLimitReached(targetAccountNumber)) {
 				throw new TransactionLimitExceedsException("Only 3 deposits are allowed in a day for account " + targetAccount.getAccountNumber());
 			}
 			if (targetAccount.getFundsBalance() + amount > 100000) {
 				throw new InvalidCommandException("Maximum account balance limit is Rs. 1,00,000");
 			}
+
 			if((sourceAccount.getFundsBalance() - amount) > 0) {
 				sourceAccount.withdrawMoney(amount);
 				targetAccount.depositMoney(amount);
+				Transaction targetTransaction = new Transaction(TransactionType.DEPOSIT, targetAccountNumber);
+				database.addTransaction(targetTransaction);
 				System.out.println("Successful");
 			} else {
 				throw new InvalidCommandException("Insufficient balance");

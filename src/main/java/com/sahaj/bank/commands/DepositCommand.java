@@ -3,8 +3,7 @@ package com.sahaj.bank.commands;
 import com.sahaj.bank.data.Database;
 import com.sahaj.bank.exception.InvalidCommandException;
 import com.sahaj.bank.exception.TransactionLimitExceedsException;
-import com.sahaj.bank.models.BankAccount;
-import com.sahaj.bank.models.Command;
+import com.sahaj.bank.models.*;
 
 import java.util.List;
 
@@ -18,9 +17,11 @@ public class DepositCommand implements CommandExecutor{
 		Database database = Database.getInstance();
 		if(database.hasAccount(accountNumber)) {
 			BankAccount account = database.getAccount(accountNumber);
-			if(account.isDepositLimitReached()) {
+			if(database.isDepositLimitReached(accountNumber)) {
 				throw new TransactionLimitExceedsException("Only 3 deposits are allowed in a day");
 			}
+			Transaction transaction = new Transaction(TransactionType.DEPOSIT, accountNumber);
+			database.addTransaction(transaction);
 			if((account.getFundsBalance() + amount) < 100000) {
 				account.depositMoney(amount);
 				System.out.println(account.getFundsBalance());

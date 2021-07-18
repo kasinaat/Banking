@@ -3,8 +3,7 @@ package com.sahaj.bank.commands;
 import com.sahaj.bank.data.Database;
 import com.sahaj.bank.exception.InvalidCommandException;
 import com.sahaj.bank.exception.TransactionLimitExceedsException;
-import com.sahaj.bank.models.BankAccount;
-import com.sahaj.bank.models.Command;
+import com.sahaj.bank.models.*;
 
 import java.util.List;
 
@@ -18,7 +17,9 @@ public class WithdrawCommand implements CommandExecutor{
 		Database database = Database.getInstance();
 		if(database.hasAccount(accountNumber)) {
 			BankAccount account = database.getAccount(accountNumber);
-			if(account.isWithdrawLimitReached()) {
+			Transaction transaction = new Transaction(TransactionType.WITHDRAW, accountNumber);
+			database.addTransaction(transaction);
+			if(database.isWithdrawLimitReached(accountNumber)) {
 				throw new TransactionLimitExceedsException("Only 3 withdrawals are allowed in a day");
 			}
 			if((account.getFundsBalance() - amount) > 0) {
